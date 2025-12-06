@@ -6,6 +6,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Alexander Petrov | Mathematical Engineer & Developer</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 	<style>
 		/* Base Styles */
 		:root {
@@ -17,6 +19,7 @@
 			--gray: #64748b;
 			--light-gray: #e2e8f0;
 			--transition: all 0.3s ease;
+			--formula-bg: rgba(37, 99, 235, 0.05);
 		}
 
 		* {
@@ -31,6 +34,7 @@
 			color: var(--dark);
 			background-color: var(--light);
 			overflow-x: hidden;
+			position: relative;
 		}
 
 		.container {
@@ -42,6 +46,7 @@
 
 		section {
 			padding: 80px 0;
+			position: relative;
 		}
 
 		h1,
@@ -100,6 +105,8 @@
 			transition: var(--transition);
 			border: 2px solid var(--primary);
 			cursor: pointer;
+			position: relative;
+			overflow: hidden;
 		}
 
 		.btn:hover {
@@ -119,6 +126,25 @@
 			color: white;
 		}
 
+		/* Scientific Elements */
+		.formula {
+			background: var(--formula-bg);
+			padding: 15px;
+			border-radius: 10px;
+			margin: 20px 0;
+			font-family: 'Courier New', monospace;
+			font-size: 1.1rem;
+			text-align: center;
+			border-left: 4px solid var(--primary);
+		}
+
+		.equation {
+			display: inline-block;
+			margin: 0 10px;
+			font-weight: bold;
+			color: var(--primary);
+		}
+
 		/* Header & Navigation */
 		header {
 			position: fixed;
@@ -129,6 +155,7 @@
 			background: rgba(255, 255, 255, 0.95);
 			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 			padding: 15px 0;
+			backdrop-filter: blur(10px);
 		}
 
 		.navbar {
@@ -192,9 +219,23 @@
 			overflow: hidden;
 		}
 
+		.hero::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background:
+				radial-gradient(circle at 20% 30%, rgba(124, 58, 237, 0.05) 0%, transparent 40%),
+				radial-gradient(circle at 80% 70%, rgba(37, 99, 235, 0.05) 0%, transparent 40%);
+			z-index: 1;
+		}
+
 		.hero-content {
 			max-width: 650px;
 			z-index: 2;
+			position: relative;
 		}
 
 		.hero h1 {
@@ -202,6 +243,7 @@
 			background: linear-gradient(90deg, var(--primary), var(--secondary));
 			-webkit-background-clip: text;
 			-webkit-text-fill-color: transparent;
+			background-clip: text;
 		}
 
 		.hero p {
@@ -221,26 +263,27 @@
 			left: 50%;
 			transform: translateX(-50%);
 			color: var(--primary);
-			animation: bounce 2s infinite;
+			z-index: 2;
 		}
 
-		@keyframes bounce {
+		/* Scientific Animations */
+		.atom {
+			position: absolute;
+			width: 6px;
+			height: 6px;
+			background: var(--primary);
+			border-radius: 50%;
+			opacity: 0.7;
+			z-index: 0;
+		}
 
-			0%,
-			20%,
-			50%,
-			80%,
-			100% {
-				transform: translateY(0) translateX(-50%);
-			}
-
-			40% {
-				transform: translateY(-20px) translateX(-50%);
-			}
-
-			60% {
-				transform: translateY(-10px) translateX(-50%);
-			}
+		.formula-display {
+			font-family: 'Cambria Math', 'Times New Roman', serif;
+			font-size: 1.3rem;
+			margin: 30px 0;
+			text-align: center;
+			color: var(--primary);
+			opacity: 0.9;
 		}
 
 		/* About Section */
@@ -261,6 +304,16 @@
 			color: white;
 			font-size: 3rem;
 			font-weight: bold;
+			position: relative;
+			overflow: hidden;
+		}
+
+		.about-img::before {
+			content: '∫∑∏∇';
+			position: absolute;
+			font-size: 8rem;
+			opacity: 0.1;
+			transform: rotate(15deg);
 		}
 
 		.about-text h3 {
@@ -294,6 +347,7 @@
 			background: var(--primary);
 			border-radius: 4px;
 			position: relative;
+			width: 0;
 		}
 
 		/* Projects Section */
@@ -309,6 +363,7 @@
 			overflow: hidden;
 			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 			transition: var(--transition);
+			position: relative;
 		}
 
 		.project-card:hover {
@@ -324,6 +379,21 @@
 			justify-content: center;
 			color: white;
 			font-size: 2rem;
+			position: relative;
+			overflow: hidden;
+		}
+
+		.project-img::before {
+			content: '';
+			position: absolute;
+			top: -50%;
+			left: -50%;
+			width: 200%;
+			height: 200%;
+			background:
+				radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%),
+				repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255, 255, 255, 0.1) 10px, rgba(255, 255, 255, 0.1) 20px);
+			opacity: 0.3;
 		}
 
 		.project-content {
@@ -379,6 +449,13 @@
 			justify-content: center;
 			color: var(--primary);
 			font-size: 1.2rem;
+			transition: var(--transition);
+		}
+
+		.contact-item:hover .contact-icon {
+			background: var(--primary);
+			color: white;
+			transform: scale(1.1);
 		}
 
 		.contact-form input,
@@ -396,6 +473,7 @@
 		.contact-form textarea:focus {
 			border-color: var(--primary);
 			outline: none;
+			box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 		}
 
 		.contact-form textarea {
@@ -409,6 +487,7 @@
 			color: white;
 			padding: 40px 0;
 			text-align: center;
+			position: relative;
 		}
 
 		.social-links {
@@ -473,6 +552,7 @@
 				align-items: center;
 				padding-top: 50px;
 				transition: var(--transition);
+				backdrop-filter: blur(10px);
 			}
 
 			.nav-links.active {
@@ -504,6 +584,11 @@
 
 			section {
 				padding: 60px 0;
+			}
+
+			.hero {
+				height: auto;
+				min-height: 100vh;
 			}
 		}
 	</style>
@@ -551,6 +636,9 @@
 	<section id="about">
 		<div class="container">
 			<h2>About Me</h2>
+			<div class="formula">
+				<span>e = mc²</span> | <span>∇ × E = -∂B/∂t</span> | <span>∫₀^∞ e^(-x²) dx = √π/2</span>
+			</div>
 			<div class="about-content">
 				<div class="about-img">
 					<i class="fas fa-user-graduate"></i>
@@ -569,7 +657,7 @@
 								<span>95%</span>
 							</div>
 							<div class="skill-bar">
-								<div class="skill-progress" style="width: 95%;"></div>
+								<div class="skill-progress" data-width="95"></div>
 							</div>
 						</div>
 						<div class="skill-item">
@@ -578,7 +666,7 @@
 								<span>90%</span>
 							</div>
 							<div class="skill-bar">
-								<div class="skill-progress" style="width: 90%;"></div>
+								<div class="skill-progress" data-width="90"></div>
 							</div>
 						</div>
 						<div class="skill-item">
@@ -587,7 +675,7 @@
 								<span>92%</span>
 							</div>
 							<div class="skill-bar">
-								<div class="skill-progress" style="width: 92%;"></div>
+								<div class="skill-progress" data-width="92"></div>
 							</div>
 						</div>
 						<div class="skill-item">
@@ -596,7 +684,7 @@
 								<span>85%</span>
 							</div>
 							<div class="skill-bar">
-								<div class="skill-progress" style="width: 85%;"></div>
+								<div class="skill-progress" data-width="85"></div>
 							</div>
 						</div>
 					</div>
@@ -609,6 +697,9 @@
 	<section id="projects" style="background-color: #f1f5f9;">
 		<div class="container">
 			<h2>Featured Projects</h2>
+			<div class="formula-display">
+				P(x) = ∑<sub>k=0</sub><sup>n</sup> a<sub>k</sub>x<sup>k</sup>
+			</div>
 			<div class="projects-grid">
 				<!-- Project 1 -->
 				<div class="project-card">
@@ -674,6 +765,9 @@
 	<section id="contact">
 		<div class="container">
 			<h2>Get In Touch</h2>
+			<div class="formula">
+				<span>f(x) = ax² + bx + c</span> | <span>lim<sub>x→∞</sub> (1 + 1/x)<sup>x</sup> = e</span>
+			</div>
 			<div class="contact-content">
 				<div class="contact-info">
 					<div class="contact-item">
@@ -740,6 +834,141 @@
 	</footer>
 
 	<script>
+		// Initialize GSAP and ScrollTrigger
+		gsap.registerPlugin(ScrollTrigger);
+
+		// Create floating atoms for scientific theme
+		function createAtoms() {
+			const hero = document.querySelector('.hero');
+			const atomCount = 20;
+
+			for (let i = 0; i < atomCount; i++) {
+				const atom = document.createElement('div');
+				atom.className = 'atom';
+				atom.style.left = Math.random() * 100 + '%';
+				atom.style.top = Math.random() * 100 + '%';
+				atom.style.opacity = Math.random() * 0.5 + 0.2;
+				atom.style.width = Math.random() * 8 + 4 + 'px';
+				atom.style.height = atom.style.width;
+				hero.appendChild(atom);
+
+				// Animate atoms with GSAP
+				gsap.to(atom, {
+					x: Math.random() * 100 - 50,
+					y: Math.random() * 100 - 50,
+					duration: Math.random() * 20 + 10,
+					repeat: -1,
+					yoyo: true,
+					ease: "power1.inOut"
+				});
+			}
+		}
+
+		// Animate hero section
+		function animateHero() {
+			const heroContent = document.querySelector('.hero-content');
+			const h1 = heroContent.querySelector('h1');
+			const p = heroContent.querySelector('p');
+			const buttons = heroContent.querySelectorAll('.btn');
+
+			gsap.from(h1, {
+				opacity: 0,
+				y: 50,
+				duration: 1,
+				ease: "power3.out"
+			});
+
+			gsap.from(p, {
+				opacity: 0,
+				y: 30,
+				duration: 1,
+				delay: 0.3,
+				ease: "power3.out"
+			});
+
+			gsap.from(buttons, {
+				opacity: 0,
+				y: 20,
+				duration: 0.8,
+				delay: 0.6,
+				stagger: 0.1,
+				ease: "power3.out"
+			});
+		}
+
+		// Animate sections on scroll
+		function animateSections() {
+			// About section
+			gsap.from('.about-img', {
+				scrollTrigger: {
+					trigger: '#about',
+					start: 'top 80%'
+				},
+				opacity: 0,
+				x: -100,
+				duration: 1,
+				ease: "power3.out"
+			});
+
+			gsap.from('.about-text', {
+				scrollTrigger: {
+					trigger: '#about',
+					start: 'top 80%'
+				},
+				opacity: 0,
+				x: 100,
+				duration: 1,
+				delay: 0.2,
+				ease: "power3.out"
+			});
+
+			// Skills animation
+			const skillBars = document.querySelectorAll('.skill-progress');
+			skillBars.forEach(bar => {
+				gsap.from(bar, {
+					scrollTrigger: {
+						trigger: '#about',
+						start: 'top 70%'
+					},
+					width: 0,
+					duration: 1.5,
+					ease: "power3.out"
+				});
+			});
+
+			// Projects section
+			const projectCards = document.querySelectorAll('.project-card');
+			projectCards.forEach((card, index) => {
+				gsap.from(card, {
+					scrollTrigger: {
+						trigger: '#projects',
+						start: 'top 80%'
+					},
+					opacity: 0,
+					y: 50,
+					duration: 0.8,
+					delay: index * 0.2,
+					ease: "power3.out"
+				});
+			});
+
+			// Contact section
+			const contactItems = document.querySelectorAll('.contact-item');
+			contactItems.forEach((item, index) => {
+				gsap.from(item, {
+					scrollTrigger: {
+						trigger: '#contact',
+						start: 'top 80%'
+					},
+					opacity: 0,
+					x: index % 2 === 0 ? -50 : 50,
+					duration: 0.8,
+					delay: index * 0.1,
+					ease: "power3.out"
+				});
+			});
+		}
+
 		// Mobile Navigation
 		const hamburger = document.querySelector('.hamburger');
 		const navLinks = document.querySelector('.nav-links');
@@ -761,9 +990,13 @@
 				e.preventDefault();
 				const target = document.querySelector(this.getAttribute('href'));
 				if (target) {
-					window.scrollTo({
-						top: target.offsetTop - 70,
-						behavior: 'smooth'
+					gsap.to(window, {
+						duration: 1,
+						scrollTo: {
+							y: target,
+							offsetY: 70
+						},
+						ease: "power3.out"
 					});
 				}
 			});
@@ -778,8 +1011,41 @@
 				contactForm.reset();
 			});
 		}
+
+		// Initialize animations when page loads
+		document.addEventListener('DOMContentLoaded', () => {
+			createAtoms();
+			animateHero();
+			animateSections();
+
+			// Animate formulas with subtle pulsing
+			const formulas = document.querySelectorAll('.formula, .formula-display');
+			formulas.forEach(formula => {
+				gsap.fromTo(formula, {
+					scale: 0.95,
+					opacity: 0
+				}, {
+					scrollTrigger: {
+						trigger: formula,
+						start: 'top 85%'
+					},
+					scale: 1,
+					opacity: 1,
+					duration: 0.8,
+					ease: "back.out(1.7)"
+				});
+
+				// Add subtle pulse animation
+				gsap.to(formula, {
+					scale: 1.02,
+					duration: 2,
+					repeat: -1,
+					yoyo: true,
+					ease: "sine.inOut"
+				});
+			});
+		});
 	</script>
 </body>
 
 </html>
-```
